@@ -1,0 +1,24 @@
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 0 5rem;
+}
+
+.brand{
+    font-family: 'Lobster', cursive;
+}
+
+.dropdown-section, .dropdown-section:focus, .dropdown-section:active{
+   border: 2px solid rgb(255, 174, 0);
+}
+
+.nav-link:hover{
+    border-bottom: 2px solid gold;
+}
+
+.active{
+    border-bottom: 2px solid gold;
+}

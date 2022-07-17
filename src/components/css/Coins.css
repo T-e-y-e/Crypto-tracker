@@ -1,0 +1,31 @@
+.inner-coins-cont{
+    min-height: 45vh;
+}
+
+
+.pagination{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    gap: 5px;
+    margin-top: 2rem;
+}
+
+.pagination .previous-link, .pagination .next-link, .pagination .page-link{
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+  border-radius: 3px;
+  font-weight: bold;
+  background: #475569;
+}
+
+.pagination .previous-link:hover, .pagination .next-link:hover, .pagination .page-link:hover{
+    background: white;
+    color: black;
+}
+
+.pagination .active-pagination{
+    color: rgb(255, 174, 0);
+}

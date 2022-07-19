@@ -19,6 +19,10 @@ body{
     color: ff9f9f
 }
 
+.header{
+    color: rgb(255, 174, 0);
+}
+
 .name{
     color: gold
 }

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import './css/Coins.css'
-import TrendingCoins from './TrendingCoins';
+import Spinner from './Spinner';
 
 interface Props {
   currency: string,
@@ -22,6 +22,8 @@ interface CoinList {
 
 
 const Coins = ({currency, symbol}: Props) => {
+
+  const navigate = useNavigate()
  
   const [coins, setCoins] = useState<CoinList[]>([]);
   const [loading, setLoading] = useState<Boolean>(false);
@@ -69,20 +71,20 @@ const totalItems = coins.length
 const pageCount = Math.ceil(totalItems / postsPerPage)
 
   return (
-    <div className='container text-white'>
-      {!loading && 
-       <div className='loading'>
-         <div role="status">
-           <img src={ require("../assets/brand-logo.svg").default } alt="" className='spinner w-12'/>
-           <span className="sr-only">Loading...</span>
-         </div>
-       </div>
+    <div className='container px-5 lg:px-20 text-white'>
+      {!loading &&
+         <Spinner />
       }
 
 {loading &&
 <div className='mt-28'>
+  <div className='mb-8'>
+    <h1 className='text-4xl sm:text-6xl text-center text-slate-400 font-semibold name'>Cryptocurrencies</h1>
+    <p className='text-center text-base sm:text-lg text-blue-100 mt-2'>Get all the latest info about your favourite cryptocurrencies</p>
+  </div>
+
   <div>
-  <form className="px-48 mb-10">   
+  <form className="xl:px-52 mb-10">   
     <label htmlFor="simple-search" className="sr-only">Search</label>
     <div className="relative w-full">
         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -99,18 +101,14 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
     </div>
 </form>
   </div>
-  <div className='mb-12'>
-    <h1 className='text-5xl text-center text-slate-400 font-semibold'>Cryptocurrencies</h1>
-    <p className='text-center text-xl text-blue-100 mt-2'>Get all the latest info about your favourite cryptocurrencies</p>
-  </div>
 
   {!search && <div className='coins-container'>
-  <div className='grid grid-cols-4 gap-8 justify-center inner-coins-cont'>
+  <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3  xl:grid-cols-4  justify-center inner-coins-cont'>
   {coins.slice(indexOfFirstPage, indexOfLastPage,).map((coin) => {
     const change: boolean = coin.price_change_percentage_24h > 0;
   return (
     <div key={coin.id} >
-      <Link to={`/coins/${coin.id}`} className="coin-card block p-6 max-w-sm rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+      <div onClick={()=>navigate(`coins/${coin.id}`)}  className="coin-card block p-6 max-w-sm rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
        <div>
           <div className='flex justify-between border-b border-slate-500 pb-3.5'>
             <div className='grid grid-cols-1 coin-name'>
@@ -132,14 +130,14 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
             </div>
           </div>
         </div>
-      </Link>
+      </div>
     </div>
   )
  })}
  </div>
 
  <div>
-  {currentPage && <div className='flex justify-center'>
+  {currentPage && <div className='flex justify-center pagination-cont'>
    <ul className="inline-flex items-center -space-x-px">
       <ReactPaginate
         breakLabel="..."
@@ -147,13 +145,14 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
         onPageChange={(e) =>  {
           setCurrentPage(e.selected + 1)
         }}
-        pageRangeDisplayed={1}
+        pageRangeDisplayed={3}
         pageCount={pageCount}
         previousLabel="<<"
         pageClassName="pagination-cont"
         containerClassName="pagination"
         pageLinkClassName="page-link"
         previousLinkClassName="previous-link"
+        previousClassName="previous-class"
         nextLinkClassName="next-link"
         activeClassName="active-pagination"
       />
@@ -163,7 +162,7 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
 </div>}
 
 
-{search && <div className='grid grid-cols-4 gap-8 justify-center'>
+{search && <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-8  xl:grid-cols-4  justify-center inner-coins-cont'>
   {handleSearch().map((coin) => {
     const change: boolean = coin.price_change_percentage_24h > 0;
   return (
@@ -194,7 +193,7 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
     </div>
   )
  })}
- {handleSearch().length === 0 && search && <p className='text-center text-xl'>No match Found</p>}
+ {handleSearch().length === 0 && search && <div className='font-center text-xl'>No match Found</div>}
 </div>}
 </div>
 }

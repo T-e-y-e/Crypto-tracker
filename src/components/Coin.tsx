@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import './css/Coin.css'
+import Spinner from './Spinner'
 
 interface Props {
   currency: string,
@@ -76,22 +76,15 @@ useEffect(() => {
   getCoinDesc();
 }, []);
 
-console.log(coin)
-
 function createMarkup() {
   return {__html: `${coinDesc?.description.en.split(". ")[0]}. ${coinDesc?.description.en.split(". ")[1]}. ${coinDesc?.description.en.split(". ")[2]}.`};
 }
 
   return (
-    <div className='container text-white'>
+    <div className='container px-5 lg:px-20 text-white'>
 
       {!coinDesc && 
-       <div className='loading'>
-         <div role="status">
-           <img src={ require("../assets/brand-logo.svg").default } alt="" className='spinner w-12'/>
-           <span className="sr-only">Loading...</span>
-         </div>
-       </div>
+        <Spinner />
       }
      
      {coinDesc && 
@@ -114,41 +107,41 @@ function createMarkup() {
             </div>
           })}
 
-          <div className='px-24 my-12'>
+          <div className='px-4 sm:px-12 lg:px-24 my-12'>
             <div dangerouslySetInnerHTML={createMarkup()} />
           </div>
 
           {coin.map((coin) => {
-            return <div>
-             <div className='flex justify-center'>
-              <div className='border-r border-slate-500 pr-14'>
-               <div className='flex flex-col'>
+            return <div className='pl-10'>
+             <div className='flex flex-col sm:flex-row justify-center'>
+              <div className='flex justify-between md:flex-col md:border-r border-slate-500 md:pr-14'>
+               <div className='flex flex-col w-32 border-r border-slate-500 sm:border-0'>
                   <span className='text-slate-400'>Rank</span>
                   <span>#{coin?.market_cap_rank}</span>
                 </div>
-                <div className='flex flex-col mt-8'>
+                <div className='flex flex-col w-36 md:mt-8'>
                   <span className='text-slate-400'>Market Cap</span>
                   <span>{symbol}{currencyFormat(coin?.market_cap.toString().slice(0, -9))} Bn</span>
                 </div>
               </div>
 
-              <div className='border-r border-slate-500 pr-14 pl-14'>
-               <div className='flex flex-col'>
+              <div className='flex justify-between md:flex-col md:border-r border-slate-500 md:pr-14 md:pl-14'>
+               <div className='flex flex-col w-32 pt-6 sm:pt-0 border-r border-slate-500 sm:border-0'>
                   <span className='text-slate-400'>Total Volume</span>
                   <span>{symbol}{currencyFormat(coin?.market_cap.toString().slice(0, -9))} Bn</span>
                 </div>
-                <div className='flex flex-col mt-8'>
+                <div className='flex flex-col w-36 pt-6 sm:pt-0 md:mt-8'>
                   <span className='text-slate-400'>Total Supply</span>
                   <span>{currencyFormat(coin?.total_supply.toString().slice(0, -6))} M</span>
                 </div>
               </div>
                
-              <div className='pl-14'>
-                <div className='flex flex-col'>
+              <div className='flex justify-between md:flex-col md:pl-14'>
+                <div className='flex flex-col w-32 pt-6 sm:pt-0  border-r border-slate-500 sm:border-0'>
                   <span className='text-slate-400'>All Time High</span>
                   <span>{symbol}{currencyFormat(coin?.ath?.toFixed(2))}</span>
                 </div>
-                <div className='flex flex-col mt-8'>
+                <div className='flex flex-col w-36 pt-6 sm:pt-0 md:mt-8'>
                   <span className='text-slate-400'>All Time Low</span>
                   <span>{symbol}{currencyFormat(coin?.atl?.toFixed(2))}</span>
                 </div>

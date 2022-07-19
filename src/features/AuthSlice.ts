@@ -10,7 +10,7 @@ const initialState: CurrencyState = {
     symbol: "$"
 }
 
-export const currencySlice = createSlice({
+export const AuthSlice = createSlice({
     name: 'currency',
     initialState,
     reducers: {
@@ -24,4 +24,4 @@ export const currencySlice = createSlice({
 
 
 
-export default currencySlice.reducer
+export default AuthSlice.reducer

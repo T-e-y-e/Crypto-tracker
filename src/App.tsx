@@ -16,7 +16,7 @@ function App() {
 
   return (
        <div className='App'>
-          <Router>
+    <Router>
       <Header currency={currency} setCurrency={setCurrency} setSymbol={setSymbol}/>
       <Routes>
         <Route path='/' element={<Homepage currency={currency} symbol={symbol}/>}/>
@@ -24,6 +24,9 @@ function App() {
         <Route path='/coins/:id' element={ <Coin currency={currency} symbol={symbol}/>} />
         <Route path='/watchlist' element={<Watchlist />}/>
       </Routes>
+    </Router>
+    <Router>
+      
     </Router>
        </div>
   );

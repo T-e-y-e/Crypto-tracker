@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import {useNavigate} from 'react-router-dom';
 import './css/TrendingCoins.css'
+import Spinner from './Spinner'
 
 interface Props {
   currency: string,
@@ -42,22 +42,17 @@ const TrendingCoins = ({currency, symbol}: Props) => {
   };
 
   return (
-    <div className='container text-white'>
-     {!loading && 
-       <div className='loading'>
-         <div role="status">
-           <img src={ require("../assets/brand-logo.svg").default } alt="" className='spinner w-12'/>
-           <span className="sr-only">Loading...</span>
-         </div>
-       </div>
+    <div className='container px-5 lg:px-20 text-white'>
+     {!trendingCoins && 
+        <Spinner />
       }
 
-    {trendingCoins && 
+    {trendingCoins &&
     <div className='mt-28'>
       <div className='mb-12'>
-        <h1 className='text-5xl text-center text-slate-400 font-semibold'>Trending Coins</h1>
+        <h1 className='text-5xl text-center text-slate-400 font-semibold header'>Trending Coins</h1>
       </div>
-      <div className='grid grid-cols-3 gap-6 justify-center'>
+      <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 justify-center'>
       {trendingCoins.map((coin) => {
       const change: boolean = coin.price_change_percentage_24h > 0;
       return (
@@ -69,7 +64,7 @@ const TrendingCoins = ({currency, symbol}: Props) => {
                   <img src={coin?.image} alt={coin.name} className='w-14'/>
                 </div>
                 <div className='grid grid-cols-1 coin-name'>
-                   <span className='text-lg'>{coin.name}</span>
+                   <span className='text-lg name'>{coin.name}</span>
                    <span className='uppercase text-slate-400 font-medium'>{coin.symbol}</span>
                 </div>
               </div>
@@ -77,7 +72,7 @@ const TrendingCoins = ({currency, symbol}: Props) => {
                 <span>
                   {symbol}{currencyFormat(coin.current_price.toFixed(2))}
                 </span>
-                <span>
+                <span className='coin-name'>
                 <span style={{color: change ? "#9fff9b" : "#ff9f9f",}}>{change && "+"}{coin.price_change_percentage_24h.toFixed(2)}%</span>
                 </span>
               </div>

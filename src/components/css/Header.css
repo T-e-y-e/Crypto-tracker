@@ -7,7 +7,7 @@ nav{
     padding: 0 5rem;
 }
 
-.brand{
+.brand-name{
     font-family: 'Lobster', cursive;
 }
 
@@ -15,10 +15,12 @@ nav{
    border: 2px solid rgb(255, 174, 0);
 }
 
-.nav-link:hover{
+.active{
     border-bottom: 2px solid gold;
 }
 
-.active{
-    border-bottom: 2px solid gold;
+@media screen and (max-width: 640px) {
+   .nav-link{
+    display: none;
+   }
 }

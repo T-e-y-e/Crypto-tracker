@@ -83,8 +83,8 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
     <p className='text-center text-base sm:text-lg text-blue-100 mt-2'>Get all the latest info about your favourite cryptocurrencies</p>
   </div>
 
-  <div>
-  <form className="xl:px-52 mb-10">   
+<div>
+   <form className="xl:px-52 mb-10">   
     <label htmlFor="simple-search" className="sr-only">Search</label>
     <div className="relative w-full">
         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -99,12 +99,16 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
           }}
         />
     </div>
-</form>
-  </div>
+   </form>
+</div>
 
-  {!search && <div className='coins-container'>
+  {handleSearch().length === 0 && search && <div className='flex justify-center text-xl'>
+     <span>No match found</span>
+  </div>}
+
+<div className='coins-container'>
   <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3  xl:grid-cols-4  justify-center inner-coins-cont'>
-  {coins.slice(indexOfFirstPage, indexOfLastPage,).map((coin) => {
+  {handleSearch().slice(indexOfFirstPage, indexOfLastPage,).map((coin) => {
     const change: boolean = coin.price_change_percentage_24h > 0;
   return (
     <div key={coin.id} >
@@ -137,7 +141,7 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
  </div>
 
  <div>
-  {currentPage && <div className='flex justify-center pagination-cont'>
+  {currentPage && !search && <div className='flex justify-center pagination-cont'>
    <ul className="inline-flex items-center -space-x-px">
       <ReactPaginate
         breakLabel="..."
@@ -159,45 +163,10 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
     </ul>
   </div>}
  </div>
-</div>}
-
-
-{search && <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-8  xl:grid-cols-4  justify-center inner-coins-cont'>
-  {handleSearch().map((coin) => {
-    const change: boolean = coin.price_change_percentage_24h > 0;
-  return (
-    <div key={coin.id} >
-      <Link to={`/coins/${coin.id}`} className="coin-card block p-6 max-w-sm rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-       <div>
-          <div className='flex justify-between border-b border-slate-500 pb-3.5'>
-            <div className='grid grid-cols-1 coin-name'>
-               <span className='text-lg name'>{coin.name}</span>
-               <span className='uppercase text-slate-200 font-medium'>{coin.symbol}</span>
-            </div>
-            <div>
-              <img src={coin?.image} alt={coin.name} className='w-14'/>
-            </div>
-          </div>
-          <div className='pt-3.5 text-sm font-medium'>
-            <div className='flex flex-col'>
-              <span className='mt-2'><span className='text-slate-400 mr-2'>Rank:</span> {coin.market_cap_rank}</span>
-              <span className='mt-2'><span className='text-slate-400 mr-2'>Price:</span> {symbol} {currencyFormat(coin.current_price.toFixed(2))}</span>
-            </div>
-            <div className='flex flex-col'>
-              <span className='mt-2'><span className='text-slate-400 mr-2'>Market Cap:</span> {symbol}{currencyFormat(coin.market_cap.toString().slice(0, -9))} B</span>
-              <span className='mt-2'><span className='text-slate-400 mr-2'>Daily Change:</span> <span style={{color: change ? "#9fff9b" : "#fca5a5",}}>{change && "+"}{coin.price_change_percentage_24h.toFixed(2)}%</span></span>
-            </div>
-          </div>
-        </div>
-      </Link>
-    </div>
-  )
- })}
- {handleSearch().length === 0 && search && <div className='font-center text-xl'>No match Found</div>}
-</div>}
 </div>
-}
-    </div>
+</div>}
+
+</div>
   )
 }
 

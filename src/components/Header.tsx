@@ -45,8 +45,12 @@ const Header = ({currency, setCurrency, setSymbol}: Props) => {
       setCurrency(e.target.value)
       if(e.target.value === "USD"){
         setSymbol("$")
-      }else if(e.target.value === "EUR"){
+      } else if(e.target.value === "EUR"){
         setSymbol("€")
+      } else if(e.target.value === "GBP"){
+        setSymbol("£")
+      } else if(e.target.value === "JPY"){
+        setSymbol("¥")
       } else if(e.target.value === "NGN"){
         setSymbol("₦")
       } 
@@ -54,6 +58,8 @@ const Header = ({currency, setCurrency, setSymbol}: Props) => {
      >
        <option value="USD" className='bg-slate-700'> USD </option>
        <option value="EUR" className='bg-slate-700'> EUR </option>
+       <option value="GBP" className='bg-slate-700'> GBP </option>
+       <option value="JPY" className='bg-slate-700'> JPY </option>
        <option value="NGN" className='bg-slate-700'> NGN </option>
      </select>
   </div>

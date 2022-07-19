@@ -15,14 +15,6 @@ body{
     width: 100%;
 }
 
-.unkwon{
-    color: ff9f9f
-}
-
-.header{
-    color: rgb(255, 174, 0);
-}
-
 .name{
     color: gold
 }
@@ -30,7 +22,6 @@ body{
 .text-sm {
     font-size: 0.9rem;
 }
-
 
 .spinner {
     margin: 0 auto;

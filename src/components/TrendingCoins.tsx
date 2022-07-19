@@ -50,7 +50,7 @@ const TrendingCoins = ({currency, symbol}: Props) => {
     {trendingCoins &&
     <div className='mt-28'>
       <div className='mb-12'>
-        <h1 className='text-5xl text-center text-slate-400 font-semibold header'>Trending Coins</h1>
+        <h1 className='text-4xl sm:text-6xl text-center text-slate-400 font-semibold name'>Trending Coins</h1>
       </div>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 justify-center'>
       {trendingCoins.map((coin) => {

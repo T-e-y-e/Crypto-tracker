@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import './css/Coins.css'
 import Spinner from './Spinner';
@@ -29,7 +29,7 @@ const Coins = ({currency, symbol}: Props) => {
   const [loading, setLoading] = useState<Boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [postsPerPage, setPostPerPage] = useState<number>(12);
+  const [postsPerPage] = useState<number>(12);
 
   const getAllCoins = async () => {
     setLoading(true);
@@ -43,6 +43,7 @@ const Coins = ({currency, symbol}: Props) => {
     setLoading(false);
  };
 
+ // eslint-disable-next-line
  useEffect(() => {
   getAllCoins();
 }, [currency]);
@@ -58,6 +59,8 @@ const handleSearch = () => {
       coin.symbol.toLowerCase().includes(search)
   );
 };
+
+
 
 function currencyFormat(x: number | string) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -94,6 +97,7 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
           id="simple-search" 
           className="bg-gray-100 text-gray-900 text-sm rounded-lg  block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search for a cryptocurrency"
+          value={search}
           onChange={(e) => {
             setSearch(e.target.value);
           }}
@@ -102,13 +106,9 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
    </form>
 </div>
 
-  {handleSearch().length === 0 && search && <div className='flex justify-center text-xl'>
-     <span>No match found</span>
-  </div>}
-
 <div className='coins-container'>
-  <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3  xl:grid-cols-4  justify-center inner-coins-cont'>
-  {handleSearch().slice(indexOfFirstPage, indexOfLastPage,).map((coin) => {
+ {search === "" && <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3  xl:grid-cols-4  justify-center inner-coins-cont'>
+  { coins.slice(indexOfFirstPage, indexOfLastPage).map((coin) => {
     const change: boolean = coin.price_change_percentage_24h > 0;
   return (
     <div key={coin.id} >
@@ -138,7 +138,7 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
     </div>
   )
  })}
- </div>
+ </div>}
 
  <div>
   {currentPage && !search && <div className='flex justify-center pagination-cont'>
@@ -162,6 +162,40 @@ const pageCount = Math.ceil(totalItems / postsPerPage)
       />
     </ul>
   </div>}
+ </div>
+
+ <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3  xl:grid-cols-4  justify-center'>
+  {search !== "" && handleSearch().map((coin) => {
+    const change: boolean = coin.price_change_percentage_24h > 0;
+  return (
+    <div key={coin.id} >
+      <div onClick={()=>navigate(`coins/${coin.id}`)}  className="coin-card block p-6 max-w-sm rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+       <div>
+          <div className='flex justify-between border-b border-slate-500 pb-3.5'>
+            <div className='grid grid-cols-1 coin-name'>
+               <span className='text-lg name'>{coin.name}</span>
+               <span className='uppercase text-slate-200 font-medium'>{coin.symbol}</span>
+            </div>
+            <div>
+              <img src={coin?.image} alt={coin.name} className='w-14'/>
+            </div>
+          </div>
+          <div className='pt-3.5 text-sm font-medium'>
+            <div className='flex flex-col'>
+              <span className='mt-2'><span className='text-slate-400 mr-2'>Rank:</span> #{coin.market_cap_rank}</span>
+              <span className='mt-2'><span className='text-slate-400 mr-2'>Price:</span> {symbol}{currencyFormat(coin.current_price.toFixed(2))}</span>
+            </div>
+            <div className='flex flex-col'>
+              <span className='mt-2'><span className='text-slate-400 mr-2'>Market Cap:</span> {symbol}{currencyFormat(coin.market_cap.toString().slice(0, -9))} B</span>
+              <span className='mt-2'><span className='text-slate-400 mr-2'>Daily Change:</span> <span style={{color: change ? "#9fff9b" : "#ff9f9f",}}>{change && "+"}{coin.price_change_percentage_24h.toFixed(2)}%</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+ })}
+ 
  </div>
 </div>
 </div>}
